@@ -1,4 +1,4 @@
-import { chunk, head, compact, tail, sortBy, insertElement, isPrime, capitalize } from './index'
+import { chunk, head, compact, tail, sortBy, insertElement, isPrime, capitalize } from '../src/'
 import { sortByData } from './testData';
 const each = require('jest-each').default;
 

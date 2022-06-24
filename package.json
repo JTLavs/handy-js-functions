@@ -3,14 +3,21 @@
   "version": "1.0.0",
   "description": "Some handy javascript functions",
   "main": "index.js",
-  "type": "module",
   "scripts": {
+    "build": "babel src -d dist",
     "test": "jest --verbose"
   },
-  "author": "James Lavery",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JTLavs/handy-js-functions.git"
+  },
+  "author": "jlavs",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.5",
     "@babel/plugin-transform-modules-commonjs": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "jest": "^28.1.0",
     "jest-each": "^28.1.0",
     "pre-commit": "^1.2.2"
