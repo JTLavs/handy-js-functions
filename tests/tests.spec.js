@@ -1,6 +1,6 @@
-import { chunk, head, compact, tail, sortBy, insertElement, isPrime, capitalize } from '../src/'
+import { chunk, head, compact, tail, sortBy, insertElement, isPrime, capitalize, noOfVowels, noOfConsonants } from '../src/'
 import { sortByData } from './testData';
-const each = require('jest-each').default;
+import each from 'jest-each';
 
 describe('head', () => {
     each([
@@ -80,5 +80,27 @@ describe('insertElement', () => {
 describe('capitalize', () => {
     it('will capitalize the first character', () => {
         expect(capitalize("test")).toBe("Test");
+        expect(capitalize("Test")).toBe("Test");
+        expect(capitalize("123")).toBe("123");
+        expect(capitalize("TEST")).toBe("TEST");
+        expect(capitalize("tEST")).toBe("TEST");
     });
-})
+});
+
+describe('noOfVowels', () => {
+    it('will return the correct number of vowels', () => {
+        expect(noOfVowels('test')).toBe(1);
+        expect(noOfVowels('hello there')).toBe(4);
+        expect(noOfVowels('')).toBe(0);
+        expect(noOfVowels('   ')).toBe(0);
+    });
+});
+
+describe('noOfConsonants', () => {
+    it('will return the correct number of consonants', () => {
+        expect(noOfConsonants('test')).toBe(3);
+        expect(noOfConsonants('hello there')).toBe(6);
+        expect(noOfConsonants('')).toBe(0);
+        expect(noOfConsonants('   ')).toBe(0);
+    });
+});

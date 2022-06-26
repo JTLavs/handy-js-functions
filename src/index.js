@@ -1,3 +1,5 @@
+import { ROMAN_NUMBERALS } from "./constants.js";
+
 /**
  * Returns an array of chunks of specified length
  * @example chunk([1,2,3,4,5,6,7], 2) => [[1,2], [3,4], [5,6], [7]] 
@@ -23,7 +25,7 @@ const chunk = (arr = [], length = 0) => {
  * Returns a new array with falsey values removed.
  * @example compact([undefined, 1, 0, null, 'hello']) => [1,'hello'] 
  * @param {array} arr the original array 
- * @returns {string}
+ * @returns {array}
  */
 function compact(arr) {
     return arr.filter(el => !!el);
@@ -173,7 +175,7 @@ const zipObject = (keys, values) => {
  * @returns {string} the string with the first character capitalized
  */
 function capitalize(str) {
-    return [str[0].toUpperCase(), ...str.toLowerCase().split('').slice(1, str.length)].join('');
+    return [str[0].toUpperCase(), ...str.split('').slice(1, str.length)].join('');
 }
 
 /**
@@ -189,7 +191,7 @@ function insertElement(index, element, arr) {
 }
 
 /**
- * Sorts by a property on an arry of objects
+ * Sorts by a property on an array of objects
  * @param {string} prop the name of the prop
  * @param {any[]} arr array of objects
  * @returns {any[]} the array sorted by the property
@@ -237,7 +239,7 @@ const replace = (str, newVal, target) => str.replace(target, newVal);
 
 /**
  * Returns the words from a string as an array
- * @example replace('hello world', 'there', 'world') => 'hello there' 
+ * @example words('give me the words') => [give, me, the, words]
  * @param {string} str the string to obtain the words
  * @param {string} pattern the pattern to split the string by
  * @returns {string[]} the array of words
@@ -387,6 +389,75 @@ const primesUpTo = (n) => {
 
 const toArray = (...args) => args;
 
+/**
+ * Returns the number of vowels in a string
+ * @example noOfVowels('hello world') => 3
+ * @param {string} str the string
+ * @returns {number} the number of vowels
+ */
+const noOfVowels = (str) => removeSpaces(str).split('')
+    .filter(c => c === 'a' || c === 'e' || c === 'i' || c === 'o' || c === 'u').length;
+
+/**
+ * Returns the number of consonants in a string
+ * @example noOfVowels('hello world') => 7
+ * @param {string} str the string
+ * @returns {number} the number of consonants
+ */
+const noOfConsonants = (str) => removeSpaces(str).length - noOfVowels(str);
+
+/**
+ * Removes spaces from a string
+ * @example removeSpaces('hello world') => 'helloworld'
+ * @param {string} str the string
+ * @returns {string} the string with the spaces removed
+ */
+const removeSpaces = (str) => str.replace(/\s/g, '');
+
+/**
+ * Returns the occurences of a letter in a string
+ * @example letterOccurance('hello world', 'e') => 1
+ * @param {string} str the string
+ * @returns {number} the occurences of the specified letter
+ */
+const letterOccurance = (str, letter) => str.split('').filter(c => c === letter).length;
+
+/**
+ * Converts a large number to a string with a suffix
+ * @example formatNumber(1000000) => 1M
+ * @param {number} number the number
+ * @returns {string} the string with the suffix
+ */
+const formatNumber = (number) => Intl.NumberFormat('en-gb', { maximumFractionDigits: 1, notation: "compact" }).format(number);
+
+const roman = (number) => {
+    var str = '';
+    for (var i of Object.keys(ROMAN_NUMBERALS)) {
+        var q = Math.floor(number / ROMAN_NUMBERALS[i]);
+        number -= q * ROMAN_NUMBERALS[i];
+        str += i.repeat(q);
+    }
+
+    return str;
+}
+
+/**
+ * Returns true if a and b are anagrams
+ * @example isAnagram('debit card', 'bad credit') => true
+ * @param {string} a the first string
+ * @returns {string} the second string
+ * @returns {boolean} true if a and b are anagrams, otherwise false
+ */
+const isAnagram = (a, b) => {
+    a.toLowerCase();
+    b.toLowerCase();
+
+    const first = a.split('').sort().join();
+    const second = a.split('').sort().join();
+
+    return first === second;
+}
+
 export {
     head,
     chunk,
@@ -417,4 +488,13 @@ export {
     primesUpTo,
     fill,
     toArray,
+    noOfConsonants,
+    noOfVowels,
+    letterOccurance,
+    roman,
+    formatNumber,
+    isAnagram,
+    removeSpaces,
+    pull,
+    difference,
 }
