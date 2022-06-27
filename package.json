@@ -1,6 +1,6 @@
 {
   "name": "handy-js-functions",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Some handy javascript functions",
   "main": "index.js",
   "scripts": {
