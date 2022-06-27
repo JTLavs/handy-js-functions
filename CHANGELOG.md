@@ -2,6 +2,15 @@
 # Change Log
 All notable changes will be documented in this file.
 
+## [1.0.7] - 2022-06-27
+* Fixing Readme.md
+
+## [1.0.6] - 2022-06-27
+* Fixing Readme.md
+
+## [1.0.5] - 2022-06-27
+* Fixing Readme.md
+
 ## [1.0.4] - 2022-06-27
 * Adding homepage to package.json
 
