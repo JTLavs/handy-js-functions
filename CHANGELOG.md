@@ -1,6 +1,11 @@
 
 # Change Log
 All notable changes will be documented in this file.
+
+## [1.0.3] - 2022-06-27
+* Fixing Readme.md
+* Updating .npmignore
+* Adding previously missed comments
  
 ## [1.0.2] - 2022-06-26
  

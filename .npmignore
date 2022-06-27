@@ -2,3 +2,4 @@ src/
 tests/
 .github/
 .babelrc
+CHANGELOG.md

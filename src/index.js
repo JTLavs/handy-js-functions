@@ -430,6 +430,12 @@ const letterOccurance = (str, letter) => str.split('').filter(c => c === letter)
  */
 const formatNumber = (number) => Intl.NumberFormat('en-gb', { maximumFractionDigits: 1, notation: "compact" }).format(number);
 
+/**
+ * Converts a number to its roman numberal
+ * @example roman(20) => XX
+ * @param {number} number the number
+ * @returns {string} the roman numeral
+ */
 const roman = (number) => {
     var str = '';
     for (var i of Object.keys(ROMAN_NUMBERALS)) {
@@ -445,7 +451,7 @@ const roman = (number) => {
  * Returns true if a and b are anagrams
  * @example isAnagram('debit card', 'bad credit') => true
  * @param {string} a the first string
- * @returns {string} the second string
+ * @param {string} b the second string
  * @returns {boolean} true if a and b are anagrams, otherwise false
  */
 const isAnagram = (a, b) => {
