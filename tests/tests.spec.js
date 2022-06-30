@@ -1,4 +1,4 @@
-import { chunk, head, compact, tail, sortBy, insertElement, isPrime, capitalize, noOfVowels, noOfConsonants } from '../src/'
+import { chunk, head, compact, tail, sortBy, insertElement, isPrime, capitalize, noOfVowels, noOfConsonants, initials, palindrome, nthfib, ordinal } from '../src/'
 import { sortByData } from './testData';
 import each from 'jest-each';
 
@@ -104,3 +104,59 @@ describe('noOfConsonants', () => {
         expect(noOfConsonants('   ')).toBe(0);
     });
 });
+
+describe('initials', () => {
+    each([
+        ['John Fitzgerald Kennedy', 'fml', ' ', 'J F K'],
+        ['John Fitzgerald Kennedy', 'fl', ' ', 'J K'],
+        ['John Fitzgerald Kennedy', 'f', ' ', 'J'],
+        ['John Fitzgerald Kennedy', 'l', ' ', 'K'],
+        ['John Fitzgerald Kennedy', 'L', ' ', 'Kennedy'],
+        ['John Fitzgerald Kennedy', 'F', ' ', 'John'],
+        ['John Fitzgerald Kennedy', 'M', ' ', 'Fitzgerald'],
+        ['John Fitzgerald Kennedy', 'm', ' ', 'F'],
+        ['Walter White', 'fl', undefined, 'W.W'],
+        ['Abraham Lincoln', 'fL', undefined, 'A.Lincoln'],
+        ['Abraham Lincoln', 'Fl', ' ', 'Abraham L'],
+    ])
+    .it('will return the correct value', (name, format, separator, expected) => {
+        expect(initials(name, format, separator)).toBe(expected)
+    });
+});
+
+describe('palindrome', () => {
+    each([
+        ['racecar', true],
+        ['noon', true],
+        ['kayak', true],
+        ['rotator', true],
+        ['caravan', false],
+        ['hello', false],
+    ])
+    .it('will return the correct value', (string, expected) => {
+        expect(palindrome(string)).toBe(expected)
+    });
+});
+
+describe('nthfib', () => {
+    each([
+        [1, 1],
+        [10, 55],
+    ])
+    .it('will return the correct value', (n, expected) => {
+        expect(nthfib(n)).toBe(expected)
+    });
+});
+
+describe('ordinal', () => {
+    each([
+        [1, '1st'],
+        [22, '22nd'],
+        [33, '33rd'],
+        [44, '44th'],
+        [100, '100th'],
+    ])
+    .it('will return the value correctly', (number, expected) => {
+        expect(ordinal(number)).toBe(expected);
+    });
+})

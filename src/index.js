@@ -1,4 +1,4 @@
-import { ROMAN_NUMBERALS } from "./constants.js";
+import { CONVERSIONS, INITAL_FORMATS, ROMAN_NUMBERALS } from "./constants.js";
 
 /**
  * Returns an array of chunks of specified length
@@ -123,6 +123,14 @@ const pull = (arr, ...args) => arr.filter(el => !args.includes(el));
  * @returns {array} array containing all elements except the first element
  */
 const tail = (arr) => arr.slice(1, arr.length);
+
+/**
+ * Returns all elements except the first element
+ * @example tail([1,2,3,4,5]) => [2,3,4,5]
+ * @param {any[]} arr the original array 
+ * @returns {array} array containing all elements except the first element
+ */
+ const exceptLast = (arr) => arr.reverse().slice(1, arr.length).reverse();
 
 /**
  * Returns a portion of an array to n from the start of the array
@@ -400,7 +408,7 @@ const noOfVowels = (str) => removeSpaces(str).split('')
 
 /**
  * Returns the number of consonants in a string
- * @example noOfVowels('hello world') => 7
+ * @example noOfConsonants('hello world') => 7
  * @param {string} str the string
  * @returns {number} the number of consonants
  */
@@ -464,6 +472,119 @@ const isAnagram = (a, b) => {
     return first === second;
 }
 
+const reverse = (str, pattern) => str.split(pattern).reverse().join(pattern);
+
+const initials = (name, format, separator = '.') => {
+    let arr = name.split(' ');
+    let last;
+    let lastName;
+    let lastInitial;
+    const length = arr.length;
+    const first = arr[0].toLowerCase();
+    if (length > 1) {
+        last = arr[length - 1].toLowerCase(); 
+        lastName = capitalize(last);
+        lastInitial = last.split('')[0].toUpperCase();
+    }
+
+    // Has to be after as array is mutated
+    const middle = tail(exceptLast(arr));
+
+    const firstName = capitalize(first);
+    const middleNames = middle.map(m => capitalize(m.toLowerCase())).join(separator);
+    const firstInitial = first.split('')[0].toUpperCase();
+    const middleInitials = middle.map(i => `${i.split('')[0].toUpperCase()}`).join(separator);
+
+    if (!format) return compact([firstName, separator, ...middleNames, separator, lastName]).join('')
+    if (format === 'F') return firstName;
+    if (format === 'L') return lastName;
+    if (format === 'f') return firstInitial;
+    if (format === 'l') return lastInitial;
+    if (format === 'm') return middleInitials;
+    if (format === 'M') return middleNames;
+
+    if (format === INITAL_FORMATS.FIRST_NAME__LAST_INITIAL) {
+        return lastInitial ? `${firstName}${separator}${lastInitial}` : firstName;
+    }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__LAST_INITIAL) {
+        return lastInitial ? `${firstInitial}${separator}${lastInitial}` : firstInitial;
+    }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__LAST_NAME) {
+       return lastName ? `${firstInitial}${separator}${lastName}` : lastName;
+    }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__MIDDLE_INITIALS__LAST_NAME) {
+        return compact([firstInitial, separator, ...middleInitials, separator, lastName]).join('');
+     }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__MIDDLE_INITIALS__LAST_INITIAL) {
+        return compact([firstInitial, separator, ...middleInitials, separator, lastInitial]).join('');
+    }
+
+    if (format === INITAL_FORMATS.FIRST_NAME__MIDDLE_INITIALS__LAST_NAME) {
+        return compact([firstName, ...middleInitials, lastName]).join(separator);
+    }
+}
+
+const fib = (num) => {
+    let sequence = [0,1];
+
+    for (var n=2; n <= num; n++) {
+        sequence.push(sequence[n-1] + sequence[n-2]);
+    }
+
+    return sequence;
+}
+
+/**
+ * Returns the nth number in the fibonacci sequence
+ * @example nthfib(10) => 55
+ * @param {number} n the number
+ * @returns {number} the nth number in the sequence
+ */
+ const nthfib = (n) => fib(n)[n];
+
+/**
+ * Returns the ordinal of a number
+ * @example ordinal(1) => '1st'
+ * @param {number} num the number
+ * @returns {string} the ordinal number
+ */
+const ordinal = (num) => {
+    if (num < 1){
+        console.error('Number must be greater than 0');
+        return;
+    }
+
+    let arr = String(num).split('');
+    var lastDigit = arr[arr.length - 1];
+
+    if (parseInt(lastDigit) === 3) return `${num}rd`;
+    if (parseInt(lastDigit) === 2) return `${num}nd`;
+    if (parseInt(lastDigit) === 1) return `${num}st`;
+    return `${num}th`;
+}
+
+/**
+ * Returns true if a word is a palindrome
+ * @example palindrome('racecar') => true
+ * @param {string} word the word to test
+ * @returns {boolean} true if word is a palindrome, other wise false
+ */
+const palindrome = (word) => word === word.split('').reverse().join('');
+
+const convert = (from, to, value) => {
+    const key = `${from.toUpperCase()}_${to.toUpperCase()}`;
+    const reversedKey = reverse(key, '_');
+
+    if (CONVERSIONS.hasOwnProperty(key)) return value / CONVERSIONS[key];    
+    if (CONVERSIONS.hasOwnProperty(reversedKey)) return value * CONVERSIONS[reversedKey];
+
+    return "Cannot convert values";
+}
+
 export {
     head,
     chunk,
@@ -503,4 +624,10 @@ export {
     removeSpaces,
     pull,
     difference,
+    convert,
+    nthfib,
+    fib,
+    initials,
+    palindrome,
+    ordinal,
 }
