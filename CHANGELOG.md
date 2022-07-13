@@ -2,6 +2,21 @@
 # Change Log
 All notable changes will be documented in this file.
 
+## [1.1.0] - 2022-07-12
+ 
+### Added
+#### New functions
+* `caesar` - encrypts a string using the casaer cipher
+* `shiftRight` - shift a specified array to the right by a specified amount
+* `shiftLeft` - shift a specified array to the left by a specified amount
+* `ordinal` - returns the ordinal of a specified number
+* `palindrome` - returns true if the specified string if a palindrome
+* `fib` - returns the fibonacci seqequnce up to a specified limit
+  
+### Fixed
+- Issue with the isAnagram function
+- Documentation of some functions
+
 ## [1.0.7] - 2022-06-27
 * Fixing Readme.md
 

@@ -1,10 +1,10 @@
-import { ROMAN_NUMBERALS } from "./constants.js";
+import { CONVERSIONS, INITAL_FORMATS, ROMAN_NUMBERALS } from "./constants.js";
 
 /**
  * Returns an array of chunks of specified length
  * @example chunk([1,2,3,4,5,6,7], 2) => [[1,2], [3,4], [5,6], [7]] 
- * @param {any[]} [arr = []] - the original array 
- * @param {number} [length = 0] - the length of each chunk
+ * @param {any[]} [arr=[]] - the original array 
+ * @param {number} [length=0] - the length of each chunk
  * @returns {any[][]} - the array with chunks
  */
 const chunk = (arr = [], length = 0) => {
@@ -25,7 +25,7 @@ const chunk = (arr = [], length = 0) => {
  * Returns a new array with falsey values removed.
  * @example compact([undefined, 1, 0, null, 'hello']) => [1,'hello'] 
  * @param {array} arr the original array 
- * @returns {array}
+ * @returns {array} the filtered array
  */
 function compact(arr) {
     return arr.filter(el => !!el);
@@ -36,7 +36,7 @@ function compact(arr) {
  * @example difference(['alice', 'bob', 'dave'], ['alice', 'bob']) => ['dave'] 
  * @param {array} arr the original array 
  * @param {array} exclude the array with the values to exclude
- * @returns {arr}
+ * @returns {arr} the filtered array
  */
 const difference = (arr, exclude) => arr.filter(el => !exclude.includes(el));
 
@@ -47,7 +47,7 @@ const difference = (arr, exclude) => arr.filter(el => !exclude.includes(el));
  * @param {number} value the fill value
  * @param {number} [start=0] the start value to fill from
  * @param {number} [end=arr.length] the end value to stop filling at (not inclusive)
- * @returns {arr}
+ * @returns {arr} the new array
  */
 const fill = (arr, value, start = 0, end = arr.length) => {
 
@@ -120,37 +120,53 @@ const pull = (arr, ...args) => arr.filter(el => !args.includes(el));
  * Returns all elements except the first element
  * @example tail([1,2,3,4,5]) => [2,3,4,5]
  * @param {any[]} arr the original array 
- * @returns {array} array containing all elements except the first element
+ * @returns {any[]} array containing all elements except the first element
  */
 const tail = (arr) => arr.slice(1, arr.length);
+
+/**
+ * Returns all elements except the first element
+ * @example tail([1,2,3,4,5]) => [2,3,4,5]
+ * @param {any[]} arr the original array 
+ * @returns {any[]} array containing all elements except the first element
+ */
+ const exceptLast = (arr) => arr.reverse().slice(1, arr.length).reverse();
 
 /**
  * Returns a portion of an array to n from the start of the array
  * @example take([1,2,3,4,5], 3) => [1,2,3]
  * @param {any[]} arr the original array
  * @param {number} n the index to slice the array 
- * @returns {array} array containing all elements from arr[0] to arr[n]
+ * @returns {any[]} array containing all elements from arr[0] to arr[n]
  */
 const take = (arr, n) => arr.slice(0, n);
 
 /**
  * Returns a portion of an array to n from the end of the array
  * @example takeRight([1,2,3,4,5], 3) => [3,4,5] 
- * @param {array} arr the original array
+ * @param {any[]} arr the original array
  * @param {number} n the index to slice the array
- * @returns {array} array containing all elements from arr[arr.length-1] to arr[n]
+ * @returns {any[]} array containing all elements from arr[arr.length-1] to arr[n]
  */
 const takeRight = (arr, n) => arr.reverse().slice(0, n).reverse();
 
 /**
  * Returns the average of an array of numerical values
- * @example take([1,2,3,4,5]) => 3
+ * @example mean([1,2,3,4,5]) => 3
  * @param {number[]} arr the original array of numerical values
  * @returns {number} the average of the elements in the array
  */
 const mean = (arr) => arr.reduce((prev, curr) => prev + curr) / arr.length;
 
+/**
+ * Creates an object from an array of keys and an array of values
+ * @example zipObject([1,2], ['a',b']) => { '1': 'a', '2': 'b' };
+ * @param {number[]} keys the keys for the object
+ * @param {number[]} values the values for the object
+ * @returns {object} the new object
+ */
 const zipObject = (keys, values) => {
+    let obj = {}
     if (!values || !keys) {
         console.error("values or keys array is undefined");
         return;
@@ -183,7 +199,7 @@ function capitalize(str) {
  * @param {number} index the index to insert the element
  * @param {any} element the element to insert
  * @param {any[]} arr the array in which to insert the element 
- * @returns {arr} the array with the inserted element
+ * @returns {any[]} the array with the inserted element
  */
 function insertElement(index, element, arr) {
     arr.splice(index, 0, element);
@@ -222,7 +238,7 @@ const endsWithChar = (str, char) => str.split('')[str.length-1] === char;
  * Repeats a string n times
  * @example repeat('repeatme', 2) => 'repeatmerepeatme'
  * @param {string} str the string repeat
- * @param {string} n the amount of repetitions
+ * @param {number} n the amount of repetitions
  * @returns {string} the string repeated
  */
 const repeat = (str, n) => Array(n).fill(str).join('');
@@ -241,7 +257,7 @@ const replace = (str, newVal, target) => str.replace(target, newVal);
  * Returns the words from a string as an array
  * @example words('give me the words') => [give, me, the, words]
  * @param {string} str the string to obtain the words
- * @param {string} pattern the pattern to split the string by
+ * @param {string} [pattern=''] the pattern to split the string by
  * @returns {string[]} the array of words
  */
 const words = (str, pattern = '') => str.split(pattern);
@@ -400,7 +416,7 @@ const noOfVowels = (str) => removeSpaces(str).split('')
 
 /**
  * Returns the number of consonants in a string
- * @example noOfVowels('hello world') => 7
+ * @example noOfConsonants('hello world') => 7
  * @param {string} str the string
  * @returns {number} the number of consonants
  */
@@ -418,6 +434,7 @@ const removeSpaces = (str) => str.replace(/\s/g, '');
  * Returns the occurences of a letter in a string
  * @example letterOccurance('hello world', 'e') => 1
  * @param {string} str the string
+ * @param {string} letter the letter to count
  * @returns {number} the occurences of the specified letter
  */
 const letterOccurance = (str, letter) => str.split('').filter(c => c === letter).length;
@@ -459,9 +476,254 @@ const isAnagram = (a, b) => {
     b.toLowerCase();
 
     const first = a.split('').sort().join();
-    const second = a.split('').sort().join();
+    const second = b.split('').sort().join();
 
     return first === second;
+}
+
+const reverse = (str, pattern) => str.split(pattern).reverse().join(pattern);
+
+const initials = (name, format, separator = '.') => {
+    let arr = name.split(' ');
+    let last;
+    let lastName;
+    let lastInitial;
+    const length = arr.length;
+    const first = arr[0].toLowerCase();
+    if (length > 1) {
+        last = arr[length - 1].toLowerCase(); 
+        lastName = capitalize(last);
+        lastInitial = last.split('')[0].toUpperCase();
+    }
+
+    // Has to be after as array is mutated
+    const middle = tail(exceptLast(arr));
+
+    const firstName = capitalize(first);
+    const middleNames = middle.map(m => capitalize(m.toLowerCase())).join(separator);
+    const firstInitial = first.split('')[0].toUpperCase();
+    const middleInitials = middle.map(i => `${i.split('')[0].toUpperCase()}`).join(separator);
+
+    if (!format) return compact([firstName, separator, ...middleNames, separator, lastName]).join('')
+    if (format === 'F') return firstName;
+    if (format === 'L') return lastName;
+    if (format === 'f') return firstInitial;
+    if (format === 'l') return lastInitial;
+    if (format === 'm') return middleInitials;
+    if (format === 'M') return middleNames;
+
+    if (format === INITAL_FORMATS.FIRST_NAME__LAST_INITIAL) {
+        return lastInitial ? `${firstName}${separator}${lastInitial}` : firstName;
+    }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__LAST_INITIAL) {
+        return lastInitial ? `${firstInitial}${separator}${lastInitial}` : firstInitial;
+    }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__LAST_NAME) {
+       return lastName ? `${firstInitial}${separator}${lastName}` : lastName;
+    }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__MIDDLE_INITIALS__LAST_NAME) {
+        return compact([firstInitial, separator, ...middleInitials, separator, lastName]).join('');
+     }
+
+    if (format === INITAL_FORMATS.FIRST_INITIAL__MIDDLE_INITIALS__LAST_INITIAL) {
+        return compact([firstInitial, separator, ...middleInitials, separator, lastInitial]).join('');
+    }
+
+    if (format === INITAL_FORMATS.FIRST_NAME__MIDDLE_INITIALS__LAST_NAME) {
+        return compact([firstName, ...middleInitials, lastName]).join(separator);
+    }
+}
+
+/**
+ * Returns the first n elements of the fibonacci sequence
+ * @example fib(10) => [0,1,1,2,3,5,8,13,21,34]
+ * @param {number} num the number of elements 
+ * @returns {number[]} the sequence
+ */
+const fib = (num) => {
+    let sequence = [0,1];
+
+    for (var n=2; n < num; n++) {
+        sequence.push(sequence[n-1] + sequence[n-2]);
+    }
+
+    return sequence;
+}
+
+/**
+ * Returns the nth number in the fibonacci sequence
+ * @example nthfib(10) => 34
+ * @param {number} n the number
+ * @returns {number} the nth number in the sequence
+ */
+ const nthfib = (n) => fib(n)[n -1];
+
+/**
+ * Returns the ordinal of a number
+ * @example ordinal(1) => '1st'
+ * @param {number} num the number
+ * @returns {string} the ordinal number
+ */
+const ordinal = (num) => {
+    if (num < 1){
+        console.error('Number must be greater than 0');
+        return;
+    }
+
+    let arr = String(num).split('');
+    var lastDigit = arr[arr.length - 1];
+
+    if (parseInt(lastDigit) === 3) return `${num}rd`;
+    if (parseInt(lastDigit) === 2) return `${num}nd`;
+    if (parseInt(lastDigit) === 1) return `${num}st`;
+    return `${num}th`;
+}
+
+/**
+ * Returns true if a word is a palindrome
+ * @example palindrome('racecar') => true
+ * @param {string} word the word to test
+ * @returns {boolean} true if word is a palindrome, other wise false
+ */
+const palindrome = (word) => word === word.split('').reverse().join('');
+
+const convert = (from, to, value) => {
+    const key = `${from.toUpperCase()}_${to.toUpperCase()}`;
+    const reversedKey = reverse(key, '_');
+
+    if (CONVERSIONS.hasOwnProperty(key)) return value / CONVERSIONS[key];    
+    if (CONVERSIONS.hasOwnProperty(reversedKey)) return value * CONVERSIONS[reversedKey];
+
+    return "Cannot convert values";
+}
+
+/**
+ * Checks if a year is a leap year
+ * @example leapYear(2004) => [4,5,1,2,3]
+ * @param {any[]} arr the arr to shift
+ * @param {number} k the amount to shift the array by
+ * @returns {any[]} the shifted array
+ */
+const isLeapYear = (year) => {
+    if (year % 4 == 0 && year % 100 !== 0) return true;
+    if (year % 100 == 0 && year % 400 === 0) return true;
+    return false;
+}
+
+/**
+ * Moves the elements to the right by a specified value
+ * @example shiftRight([1,2,3,4,5], 2) => [4,5,1,2,3]
+ * @param {any[]} arr the arr to shift
+ * @param {number} k the amount to shift the array by
+ * @returns {any[]} the shifted array
+ */
+const shiftRight = (arr, k) => {
+    if (arr?.length <= 1 || k == 0) {
+        return arr;
+    }
+
+    for (let i = 0; i < k; i++) {
+        const el = arr.pop();
+        arr.unshift(el);
+    }
+
+    return arr;
+}
+
+/**
+ * Moves the elements to the left by a specified value
+ * @example shiftLeft([1,2,3,4,5], 2) => [3,4,5,1,2]
+ * @param {any[]} arr the arr to shift
+ * @param {number} k the amount to shift the array by
+ * @returns {any[]} the shifted array
+ */
+const shiftLeft = (arr, k) => {
+    if (arr?.length <= 1 || k == 0) {
+        return arr;
+    }
+
+    for (let i=0; i < k; i++) {
+        const el = arr.shift();
+        arr.push(el);
+    }
+
+    return arr;
+}
+
+const isDateValid = (date, separator) => {
+    if (!date.includes(separator)) {
+        return false;
+    }
+
+    const [day, month, year] = date.split(separator);
+
+    const d = Number(day);
+    const m = Number(month);
+    const y = Number(year);
+
+    if (d > 31 || d <= 0 ) return false;
+    if (m > 12 || m <= 0) return false;
+    if ((m === 11 || m === 4 || m === 6 || m === 9) && d > 30) return false;
+    if (m === 2) {
+        if (isLeapYear(y) && day > 29) {
+            return false;
+        }
+
+        if (day > 28) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * The caesar cipher 
+ * @example caesar('test', 2) => vguv
+ * @param {string} str the string to encode
+ * @param {number} k the amount to encode by
+ * @returns {string} the encoded string
+ */
+const caesar = (str, k) => {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    const encoded = [];
+
+    for (let i = 0; i < str.split('').length; i++) {
+        let isCapital = false;
+        let charIndex = alphabet.indexOf(str[i].toLowerCase());
+        let charToPush = '';
+    
+        if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) < 97) {
+            isCapital = true;
+            charIndex = alphabet.indexOf(str[i].toLowerCase());
+        }
+
+        let valueToShift = charIndex + k;
+
+        if (k > alphabet.length) {
+            valueToShift = (k % alphabet.length) + charIndex;
+        }
+ 
+        if (charIndex < 0) {
+            charToPush = str[i];
+        }
+        else if (valueToShift >= alphabet.length) {
+            charToPush = alphabet[(valueToShift) - alphabet.length];
+        }
+        else if (valueToShift < 0) {
+            charToPush = alphabet[valueToShift + alphabet.length];
+        }
+        else {
+            charToPush = alphabet[valueToShift];
+        }
+        
+        encoded.push(isCapital ? charToPush.toUpperCase() : charToPush);
+    }
+
+    return encoded.join('');
 }
 
 export {
@@ -503,4 +765,13 @@ export {
     removeSpaces,
     pull,
     difference,
+    nthfib,
+    fib,
+    initials,
+    palindrome,
+    ordinal,
+    isLeapYear,
+    shiftLeft,
+    shiftRight,
+    caesar,
 }
